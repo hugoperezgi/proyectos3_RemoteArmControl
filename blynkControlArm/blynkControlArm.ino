@@ -206,22 +206,58 @@ void setUpServoPositions(){
   currentPosition[10]=0;
 }
 
-void moveWristToAngle(int angle){
-  if(angle>180 && angle<=255) return;
-  while (currentPosition[14]!=angle){
-    pwm.setPWM(15, 0, currentPosition[14]*STEP_SERVOID_15);
-    currentPosition[14] < angle ? ++currentPosition[14] : --currentPosition[14];
-    delay(10);
+
+void pointIndex(){
+  i=0;
+  while (i<180){
+    if(currentPosition[0] < 180){currentPosition[0]++;pwm.setPWM(0, 0, -currentPosition[0]*STEP_SERVOID_0 + SERVOMAX_thumb_B);}
+
+      if(currentPosition[1] > 0){currentPosition[1]--;pwm.setPWM(1, 0, -currentPosition[1]*STEP_SERVOID_1 + SERVOMAX_index_B);}
+
+    if(currentPosition[2] < 180){currentPosition[2]++;pwm.setPWM(2, 0, -currentPosition[2]*STEP_SERVOID_2 + SERVOMAX_middle_B);}
+    if(currentPosition[3] < 180){currentPosition[3]++;pwm.setPWM(3, 0, -currentPosition[3]*STEP_SERVOID_3 + SERVOMAX_ring_B);}
+    if(currentPosition[4] < 180){currentPosition[4]++;pwm.setPWM(4, 0, -currentPosition[4]*STEP_SERVOID_4 + SERVOMAX_pinky_B);}
+    if(currentPosition[5] < 180){currentPosition[5]++;pwm.setPWM(5, 0, -currentPosition[5]*STEP_SERVOID_5 + SERVOMAX_thumb_A);}
+
+    if(currentPosition[6] > 0){currentPosition[6]--;pwm.setPWM(6, 0, -currentPosition[6]*STEP_SERVOID_6 + SERVOMAX_index_A);}
+    
+    if(currentPosition[7] < 180){currentPosition[7]++;pwm.setPWM(7, 0, -currentPosition[7]*STEP_SERVOID_7 + SERVOMAX_middle_A);}
+    if(currentPosition[8] < 180){currentPosition[8]++;pwm.setPWM(8, 0, -currentPosition[8]*STEP_SERVOID_8 + SERVOMAX_ring_A);}
+    if(currentPosition[9] < 180){currentPosition[9]++;pwm.setPWM(9, 0, -currentPosition[9]*STEP_SERVOID_9 + SERVOMAX_pinky_A);}
+    if(currentPosition[10] < 180){currentPosition[10]++;pwm.setPWM(11, 0, currentPosition[10]*STEP_SERVOID_11+SERVOMIN_palm);}
+    
+    i++;
+  }
+  delay(25);
+}
+
+void openHand(){
+    i=0;
+    while (i<180){
+      if(currentPosition[0] > 0){currentPosition[0]--;pwm.setPWM(0, 0, -currentPosition[0]*STEP_SERVOID_0 + SERVOMAX_thumb_B);}
+      if(currentPosition[1] > 0){currentPosition[1]--;pwm.setPWM(1, 0, -currentPosition[1]*STEP_SERVOID_1 + SERVOMAX_index_B);}
+      if(currentPosition[2] > 0){currentPosition[2]--;pwm.setPWM(2, 0, -currentPosition[2]*STEP_SERVOID_2 + SERVOMAX_middle_B);}
+      if(currentPosition[3] > 0){currentPosition[3]--;pwm.setPWM(3, 0, -currentPosition[3]*STEP_SERVOID_3 + SERVOMAX_ring_B);}
+      if(currentPosition[4] > 0){currentPosition[4]--;pwm.setPWM(4, 0, -currentPosition[4]*STEP_SERVOID_4 + SERVOMAX_pinky_B);}
+      if(currentPosition[5] > 0){currentPosition[5]--;pwm.setPWM(5, 0, -currentPosition[5]*STEP_SERVOID_5 + SERVOMAX_thumb_A);}
+      if(currentPosition[6] > 0){currentPosition[6]--;pwm.setPWM(6, 0, -currentPosition[6]*STEP_SERVOID_6 + SERVOMAX_index_A);}
+      if(currentPosition[7] > 0){currentPosition[7]--;pwm.setPWM(7, 0, -currentPosition[7]*STEP_SERVOID_7 + SERVOMAX_middle_A);}
+      if(currentPosition[8] > 0){currentPosition[8]--;pwm.setPWM(8, 0, -currentPosition[8]*STEP_SERVOID_8 + SERVOMAX_ring_A);}
+      if(currentPosition[9] > 0){currentPosition[9]--;pwm.setPWM(9, 0, -currentPosition[9]*STEP_SERVOID_9 + SERVOMAX_pinky_A);}      
+      if(currentPosition[10] > 0){currentPosition[10]--;pwm.setPWM(11, 0, currentPosition[10]*STEP_SERVOID_11+ SERVOMIN_palm);}
+      i++;
+    }
+}
+BLYNK_WRITE(V2){
+  if(param.asInt()==1){
+    pointIndex();
+  }else{
+    openHand();
   }
 }
 
-BLYNK_WRITE(V4){
-  moveWristToAngle(param.asInt());
-  Blynk.virtualWrite(V5,param.asInt());
-}
-
-BLYNK_WRITE(V6){
-  switchGestures(param.asInt());
+BLYNK_WRITE(V9){
+  setUpServoPositions();
 }
 
 void setup(){
@@ -237,6 +273,5 @@ void setup(){
 }
 
 void loop(){
-  setUpCurrentPositions();
   Blynk.run();
 }
