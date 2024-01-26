@@ -273,5 +273,6 @@ void setup(){
 }
 
 void loop(){
+  setUpServoPositions();
   Blynk.run();
 }
