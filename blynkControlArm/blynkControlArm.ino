@@ -15,7 +15,7 @@
 char ssid[] = "Hugoo";
 char pass[] = "12345678";
 
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(); 
+Adafruit_PWMServoDriveAXpwm = Adafruit_PWMServoDriver(); 
 
 /*
  * 
@@ -182,25 +182,25 @@ uint8_t j = 0;
 uint8_t currentPosition[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void setUpServoPositions(){
-  pwm.setPWM(0, 0, SERVOMIN_thumb_B);
+  pwm.setPWM(0, 0, SERVOMAX_thumb_B);
   currentPosition[0]=0;
-  pwm.setPWM(1, 0, SERVOMIN_index_B);
+  pwm.setPWM(1, 0, SERVOMAX_index_B);
   currentPosition[1]=0;
-  pwm.setPWM(2, 0, SERVOMIN_middle_B);
+  pwm.setPWM(2, 0, SERVOMAX_middle_B);
   currentPosition[2]=0;
-  pwm.setPWM(3, 0, SERVOMIN_ring_B);
+  pwm.setPWM(3, 0, SERVOMAX_ring_B);
   currentPosition[3]=0;
-  pwm.setPWM(4, 0, SERVOMIN_pinky_B);
+  pwm.setPWM(4, 0, SERVOMAX_pinky_B);
   currentPosition[4]=0;
-  pwm.setPWM(5, 0, SERVOMIN_thumb_A);
+  pwm.setPWM(5, 0, SERVOMAX_thumb_A);
   currentPosition[5]=0;
-  pwm.setPWM(6, 0, SERVOMIN_index_A);
+  pwm.setPWM(6, 0, SERVOMAX_index_A);
   currentPosition[6]=0;
-  pwm.setPWM(7, 0, SERVOMIN_middle_A);
+  pwm.setPWM(7, 0, SERVOMAX_middle_A);
   currentPosition[7]=0;
-  pwm.setPWM(8, 0, SERVOMIN_ring_A);
+  pwm.setPWM(8, 0, SERVOMAX_ring_A);
   currentPosition[8]=0;
-  pwm.setPWM(9, 0, SERVOMIN_pinky_A);
+  pwm.setPWM(9, 0, SERVOMAX_pinky_A);
   currentPosition[9]=0;
   pwm.setPWM(11, 0, SERVOMAX_palm);
   currentPosition[10]=0;
@@ -218,9 +218,7 @@ void pointIndex(){
     if(currentPosition[3] < 180){currentPosition[3]++;pwm.setPWM(3, 0, -currentPosition[3]*STEP_SERVOID_3 + SERVOMAX_ring_B);}
     if(currentPosition[4] < 180){currentPosition[4]++;pwm.setPWM(4, 0, -currentPosition[4]*STEP_SERVOID_4 + SERVOMAX_pinky_B);}
     if(currentPosition[5] < 180){currentPosition[5]++;pwm.setPWM(5, 0, -currentPosition[5]*STEP_SERVOID_5 + SERVOMAX_thumb_A);}
-
     if(currentPosition[6] > 0){currentPosition[6]--;pwm.setPWM(6, 0, -currentPosition[6]*STEP_SERVOID_6 + SERVOMAX_index_A);}
-    
     if(currentPosition[7] < 180){currentPosition[7]++;pwm.setPWM(7, 0, -currentPosition[7]*STEP_SERVOID_7 + SERVOMAX_middle_A);}
     if(currentPosition[8] < 180){currentPosition[8]++;pwm.setPWM(8, 0, -currentPosition[8]*STEP_SERVOID_8 + SERVOMAX_ring_A);}
     if(currentPosition[9] < 180){currentPosition[9]++;pwm.setPWM(9, 0, -currentPosition[9]*STEP_SERVOID_9 + SERVOMAX_pinky_A);}
@@ -273,6 +271,5 @@ void setup(){
 }
 
 void loop(){
-  setUpServoPositions();
   Blynk.run();
 }
