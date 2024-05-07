@@ -15,7 +15,7 @@
 char ssid[] = "Hugoo";
 char pass[] = "12345678";
 
-Adafruit_PWMServoDriveAXpwm = Adafruit_PWMServoDriver(); 
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(); 
 
 /*
  * 
